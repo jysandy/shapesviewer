@@ -291,14 +291,6 @@ namespace ShapesDemo
 			bufferData->SetProjectionMatrix(projectionMatrix);
 			deviceContext->Unmap(constantBuffer.get(), 0);
 
-			//Drawing outlines for cel shading.
-			/*
-			deviceContext->VSSetShader(outlineVertexShader.get(), nullptr, 0);
-			deviceContext->VSSetConstantBuffers(0, 1, constantBuffer.address());
-			deviceContext->PSSetShader(outlinePixelShader.get(), nullptr, 0);
-			deviceContext->RSSetState(cullFrontState.get());
-			deviceContext->DrawIndexed(modelIndexData.indexCount, modelIndexData.baseIndexOffset, modelIndexData.baseVertexOffset);
-			*/
 			if (model.name == "Grid")
 			{
 				lightBufferData.material = gridMaterial;
