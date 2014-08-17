@@ -65,7 +65,7 @@ struct ComputedColor
 
 float toonKd(float x)
 {
-	//return x;
+	return x;
 	if (x < 0.1)
 	{
 		return 0.2;
@@ -82,7 +82,7 @@ float toonKd(float x)
 
 float toonKs(float x)
 {
-	//return x;
+	return x;
 	if (x < 0.1)
 	{
 		return 0;
