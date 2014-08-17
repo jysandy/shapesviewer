@@ -50,14 +50,10 @@ namespace ShapesDemo
 		ComPtr<ID3D11RasterizerState> cullFrontState;
 		ComPtr<ID3D11VertexShader> vertexShader;
 		ComPtr<ID3D11PixelShader> pixelShader;
-		ComPtr<ID3D11VertexShader> outlineVertexShader;
-		ComPtr<ID3D11PixelShader> outlinePixelShader;
 		ComPtr<ID3D11InputLayout> inputLayout;
 		
 		CompiledShader compiledVS;
 		CompiledShader compiledPS;
-		CompiledShader compiledOPS;
-		CompiledShader compiledOVS;
 
 		GeometryBufferData geometryBufferData;
 		std::vector<Model> models;

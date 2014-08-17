@@ -2,8 +2,7 @@
 
 namespace ShapesDemo
 {
-	ShapesApp::ShapesApp(HINSTANCE hinstance) : D3DApp(hinstance), compiledVS("VertexShader.cso"), compiledPS("PixelShader.cso"), compiledOPS("OutlinePixelShader.cso"),
-		compiledOVS("OutlineVertexShader.cso")
+	ShapesApp::ShapesApp(HINSTANCE hinstance) : D3DApp(hinstance), compiledVS("VertexShader.cso"), compiledPS("PixelShader.cso")
 	{
 		this->windowCaption = L"Shapes";
 	}
@@ -45,12 +44,6 @@ namespace ShapesDemo
 
 		HR(
 			device->CreatePixelShader(compiledPS.get(), compiledPS.getSize(), nullptr, pixelShader.address()));
-
-		HR(
-			device->CreateVertexShader(compiledOVS.get(), compiledOVS.getSize(), nullptr, outlineVertexShader.address()));
-
-		HR(
-			device->CreatePixelShader(compiledOPS.get(), compiledOPS.getSize(), nullptr, outlinePixelShader.address()));
 
 		return true;
 	}
