@@ -63,40 +63,6 @@ struct ComputedColor
 	float4 specular;
 };
 
-float toonKd(float x)
-{
-	return x;
-	if (x < 0.1)
-	{
-		return 0.2;
-	}
-	else if (x < 0.85)
-	{
-		return 0.5;
-	}
-	else
-	{
-		return 0.9;
-	}
-}
-
-float toonKs(float x)
-{
-	return x;
-	if (x < 0.1)
-	{
-		return 0;
-	}
-	else if (x < 0.6)
-	{
-		return 0.5;
-	}
-	else
-	{
-		return 0.8;
-	}
-}
-
 ComputedColor computeDirectionalColor(float3 normal, float3 toEye)
 {
 	ComputedColor output;
@@ -105,7 +71,6 @@ ComputedColor computeDirectionalColor(float3 normal, float3 toEye)
 		output.ambient = dLight.ambient * material.ambient;
 
 	float kd = max(dot(lightVector, normal), 0);
-	kd = toonKd(kd);
 	output.diffuse = kd * dLight.diffuse * material.diffuse;
 	
 	float ks;
@@ -114,7 +79,6 @@ ComputedColor computeDirectionalColor(float3 normal, float3 toEye)
 		float3 r = reflect(-lightVector, normal);
 			ks = max(dot(r, toEye), 0);
 		ks = pow(ks, material.specular.w);
-		ks = toonKs(ks);
 		output.specular = ks * dLight.specular * material.specular;
 	}
 	else
@@ -154,7 +118,6 @@ ComputedColor computePointColor(float3 normal, float3 toEye, float3 vertex)
 
 	float kd;
 	kd = max(dot(lightVector, normal), 0);
-	kd = toonKd(kd);
 	if (kd > 0)
 	{
 		output.diffuse = kd * pLight.diffuse * material.diffuse * attenuationFactor;
@@ -163,7 +126,6 @@ ComputedColor computePointColor(float3 normal, float3 toEye, float3 vertex)
 		float ks;
 		ks = max(dot(toEye, r), 0);
 		ks = pow(ks, material.specular.w);
-		ks = toonKs(ks);
 		float factor;
 		factor = ks * attenuationFactor;
 		output.specular = factor * pLight.specular * material.specular;
@@ -196,14 +158,12 @@ ComputedColor computeSpotColor(float3 normal, float3 toEye, float3 vertex)
 	lightVector = lightVector / d;
 
 	float intensityFactor = pow(max(dot(-lightVector, sLight.direction), 0), sLight.spotlightPower);
-	intensityFactor = toonKs(intensityFactor);
 	float attenuationFactor = 1.0 / (sLight.attenuation.x + sLight.attenuation.y * d + sLight.attenuation.z * d * d);
 	
 	output.ambient = sLight.ambient * material.ambient * intensityFactor;
 
 	float kd;
 	kd = max(dot(lightVector, normal), 0);
-	kd = toonKd(kd);
 	if (kd > 0)
 	{
 		float foo = intensityFactor * attenuationFactor;
@@ -212,7 +172,6 @@ ComputedColor computeSpotColor(float3 normal, float3 toEye, float3 vertex)
 		r = reflect(-lightVector, normal);
 		float ks;
 		ks = pow(max(dot(toEye, r), 0), material.specular.w);
-		ks = toonKs(ks);
 		output.specular = ks * sLight.specular * material.specular * foo;
 	}
 
@@ -255,10 +214,5 @@ float4 main(PixelShaderInput input) : SV_TARGET
 	litColor = ambient + diffuse + specular;
 	litColor.a = material.diffuse.a;
 	
-	/*
-	float4 litColor;
-	litColor = pointColor.ambient + pointColor.diffuse + pointColor.specular;
-	litColor.a = material.diffuse.a;
-	*/
 	return litColor;
 }
